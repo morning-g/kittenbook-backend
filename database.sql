@@ -5,7 +5,7 @@ CREATE TABLE usuarios (
 	nombre VARCHAR(255),
 	apelllido VARCHAR(255),
 	correo_electronico VARCHAR(255),
-	hash_password CHAR(64) NOT NULL,
+	hash_password VARCHAR(255) NOT NULL,
 	PRIMARY KEY (correo_electronico)
 );
 
@@ -58,7 +58,7 @@ CREATE TABLE horario (
 	FOREIGN KEY (clave_materia) REFERENCES materias(clave_materia)
 );
 
-CREATE TABLE lista_tareas (
+CREATE TABLE tareas (
 	correo_electronico_usuario VARCHAR(255) NOT NULL,
 	id_tarea INT AUTO_INCREMENT,
 	tiempo_creacion TIMESTAMP NOT NULL,
