@@ -2,6 +2,8 @@ CREATE DATABASE kittenbook;
 USE kittenbook;
 
 CREATE TABLE usuarios (
+	nombre VARCHAR(255),
+	apelllido VARCHAR(255),
 	correo_electronico VARCHAR(255),
 	hash_password CHAR(64) NOT NULL,
 	PRIMARY KEY (correo_electronico)
