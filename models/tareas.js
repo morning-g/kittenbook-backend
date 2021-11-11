@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('horario', {
-    id_clase: {
+  return sequelize.define('tareas', {
+    id_tarea: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -17,55 +17,39 @@ module.exports = function(sequelize, DataTypes) {
     },
     clave_materia: {
       type: DataTypes.CHAR(8),
-      allowNull: true,
+      allowNull: false,
       references: {
-        model: 'materias',
+        model: 'horario',
         key: 'clave_materia'
       }
     },
-    grupo: {
-      type: DataTypes.STRING(10),
+    tiempo_creacion: {
+      type: DataTypes.DATE,
       allowNull: true
     },
-    docente: {
+    tiempo_inicio: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    tiempo_finalizacion: {
+      type: DataTypes.DATE,
+      allowNull: true
+    },
+    titulo: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    aula: {
+    descripcion: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
+    estado: {
       type: DataTypes.STRING(255),
-      allowNull: true
-    },
-    hora_inicio: {
-      type: DataTypes.TIME,
-      allowNull: true
-    },
-    hora_termino: {
-      type: DataTypes.TIME,
-      allowNull: true
-    },
-    lunes: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true
-    },
-    martes: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true
-    },
-    miercoles: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true
-    },
-    jueves: {
-      type: DataTypes.BOOLEAN,
-      allowNull: true
-    },
-    viernes: {
-      type: DataTypes.BOOLEAN,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'horario',
+    tableName: 'tareas',
     timestamps: false,
     indexes: [
       {
@@ -73,14 +57,7 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_clase" },
-        ]
-      },
-      {
-        name: "clave_materia",
-        using: "BTREE",
-        fields: [
-          { name: "clave_materia" },
+          { name: "id_tarea" },
         ]
       },
       {
@@ -88,6 +65,13 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "nombre_usuario" },
+        ]
+      },
+      {
+        name: "clave_materia",
+        using: "BTREE",
+        fields: [
+          { name: "clave_materia" },
         ]
       },
     ]

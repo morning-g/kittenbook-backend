@@ -1,7 +1,7 @@
 const Sequelize = require('sequelize');
 module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('historial', {
-    id_curso: {
+  return sequelize.define('notas', {
+    id_nota: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -15,33 +15,17 @@ module.exports = function(sequelize, DataTypes) {
         key: 'nombre_usuario'
       }
     },
-    clave_materia: {
-      type: DataTypes.CHAR(8),
-      allowNull: false,
-      references: {
-        model: 'materias',
-        key: 'clave_materia'
-      }
-    },
-    estado: {
+    titulo: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    semestre_cursada: {
-      type: DataTypes.TINYINT,
-      allowNull: true
-    },
-    calificacion: {
-      type: DataTypes.TINYINT,
-      allowNull: true
-    },
-    periodo_cursada: {
-      type: DataTypes.STRING(255),
+    contenido: {
+      type: DataTypes.TEXT,
       allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'historial',
+    tableName: 'notas',
     timestamps: false,
     indexes: [
       {
@@ -49,7 +33,7 @@ module.exports = function(sequelize, DataTypes) {
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "id_curso" },
+          { name: "id_nota" },
         ]
       },
       {
@@ -57,13 +41,6 @@ module.exports = function(sequelize, DataTypes) {
         using: "BTREE",
         fields: [
           { name: "nombre_usuario" },
-        ]
-      },
-      {
-        name: "clave_materia",
-        using: "BTREE",
-        fields: [
-          { name: "clave_materia" },
         ]
       },
     ]

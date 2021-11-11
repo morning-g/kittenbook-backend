@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "axios": "^0.24.0",
+    "bcrypt": "^5.0.1",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
@@ -17,7 +18,8 @@
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
     "mysql2": "^2.3.2",
-    "sequelize": "^6.9.0"
+    "sequelize": "^6.9.0",
+    "sequelize-auto": "^0.8.5"
   },
   "devDependencies": {
     "nodemon": "^2.0.14"

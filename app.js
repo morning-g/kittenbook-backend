@@ -1,12 +1,12 @@
 // Importes
-var db = require("./database");
-var express = require("express");
-var createError = require("http-errors");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var cors = require("cors");
-var logger = require("morgan");
-var mysql2 = require("mysql2");
+const db = require("./database");
+const express = require("express");
+const createError = require("http-errors");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const cors = require("cors");
+const logger = require("morgan");
+const mysql2 = require("mysql2");
 
 // Se crea la app
 const app = express();
@@ -14,17 +14,15 @@ const app = express();
 const port = 3005;
 
 // Importar los archivos de las rutas
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
-
+const indexRouter = require("./routes/index");
+const usersRouter = require("./routes/api/usuarios");
 // Se asignan las rutas del servidor a los archivos correspondientes en la carpeta routes
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/api/usuarios", usersRouter);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
-
 app.use(logger("dev"));
 app.use(cors());
 app.use(express.json());
@@ -56,8 +54,6 @@ db.authenticate()
   .catch((err) => {
     console.error("Unable to connect to the database:", err);
   });
-
-app.post("api/registro", (req, res) => {});
 
 app.listen(port, () => {
   console.log(`Example app listening at http://localhost:${port}`);

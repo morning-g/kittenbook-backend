@@ -2,20 +2,20 @@ CREATE DATABASE kittenbook;
 USE kittenbook;
 
 CREATE TABLE usuarios (
+    nombre_usuario VARCHAR(255),
 	nombre VARCHAR(255),
 	apelllido VARCHAR(255),
-	correo_electronico VARCHAR(255),
 	hash_password VARCHAR(255) NOT NULL,
-	PRIMARY KEY (correo_electronico)
+	PRIMARY KEY (nombre_usuario)
 );
 
 CREATE TABLE notas (
-	correo_electronico_usuario VARCHAR(255) NOT NULL,
-	id_nota INT AUTO_INCREMENT,
+    id_nota INT AUTO_INCREMENT,
+	nombre_usuario VARCHAR(255) NOT NULL,
 	titulo VARCHAR(255),
 	contenido LONGTEXT,
 	PRIMARY KEY (id_nota),
-	FOREIGN KEY (correo_electronico_usuario) REFERENCES usuarios(correo_electronico)
+	FOREIGN KEY (nombre_usuario) REFERENCES usuarios(nombre_usuario)
 );
 
 CREATE TABLE materias (
@@ -29,20 +29,21 @@ CREATE TABLE materias (
 );
 
 CREATE TABLE historial (
-	correo_electronico_usuario VARCHAR(255) NOT NULL,
-	id_curso INT AUTO_INCREMENT,
+    id_curso INT AUTO_INCREMENT,
+	nombre_usuario VARCHAR(255) NOT NULL,
 	clave_materia CHAR(8) NOT NULL,
 	estado VARCHAR(255),
 	semestre_cursada TINYINT(255),
 	calificacion TINYINT(100),
 	periodo_cursada VARCHAR(255),
 	PRIMARY KEY (id_curso),
-	FOREIGN KEY (correo_electronico_usuario) REFERENCES usuarios(correo_electronico),
+	FOREIGN KEY (nombre_usuario) REFERENCES usuarios(nombre_usuario),
 	FOREIGN KEY (clave_materia) REFERENCES materias(clave_materia)
 );
 
 CREATE TABLE horario (
-	correo_electronico_usuario VARCHAR(255) NOT NULL,
+    id_clase INT AUTO_INCREMENT,
+	nombre_usuario VARCHAR(255) NOT NULL,
 	clave_materia CHAR(8),
 	grupo VARCHAR(10),
 	docente VARCHAR(255),
@@ -54,22 +55,23 @@ CREATE TABLE horario (
 	miercoles BOOL,
 	jueves BOOL,
 	viernes BOOL,
-	PRIMARY KEY (clave_materia),
-	FOREIGN KEY (clave_materia) REFERENCES materias(clave_materia)
+	PRIMARY KEY (id_clase),
+	FOREIGN KEY (clave_materia) REFERENCES materias(clave_materia),
+    FOREIGN KEY (nombre_usuario) REFERENCES usuarios(nombre_usuario)
 );
 
 CREATE TABLE tareas (
-	correo_electronico_usuario VARCHAR(255) NOT NULL,
-	id_tarea INT AUTO_INCREMENT,
-	tiempo_creacion TIMESTAMP NOT NULL,
+    id_tarea INT AUTO_INCREMENT,
+	nombre_usuario VARCHAR(255) NOT NULL,
+	clave_materia CHAR(8) NOT NULL,
+	tiempo_creacion TIMESTAMP,
 	tiempo_inicio TIMESTAMP,
 	tiempo_finalizacion TIMESTAMP,
-	titulo VARCHAR(255) NOT NULL,
+	titulo VARCHAR(255),
 	descripcion LONGTEXT,
-	estado VARCHAR(255) NOT NULL,
-	clave_materia VARCHAR(255),
+	estado VARCHAR(255),
 	PRIMARY KEY (id_tarea),
-	FOREIGN KEY (correo_electronico_usuario) REFERENCES usuarios(correo_electronico),
+	FOREIGN KEY (nombre_usuario) REFERENCES usuarios(nombre_usuario),
 	FOREIGN KEY (clave_materia) REFERENCES horario(clave_materia)
 );
 
