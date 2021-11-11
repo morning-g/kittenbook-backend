@@ -1,16 +1,37 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const saltRounds = 10;
+const modelos = require('../../database')
 
 router.post('/', (req, res, next) => {
-    let username = req.body.username;
-    let password = req.body.password;
-    let firstName = req.body.firstName;
-    let lastName = req.body.lastName;
-    console.log(lastName);
+    const saltRounds = 10;
+    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+        // Store hash in your password DB.
+        const usuario = {
+            nombre_usuario: req.body.username,
+            nombre: req.body.firstName,
+            apellido: req.body.lastName,
+            hash_password: hash
+        };
+        modelos.usuarios.create(usuario)
+            .then(data => {
+                console.log("Data sent:")
+                console.log(data);
+                res.send(data);
+            })
+            .catch(err => {
+                console.log("Error:")
+                console.log(err);
+                res.status(500).send({
+                    message:
+                        err.message || "Some error occurred while creating the Tutorial."
+                });
+            });
+    });
+});
 
-    res.send({status: 'SUCCESS'});
+router.get('/', (req, res, next) => {
+
 });
 
 module.exports = router;

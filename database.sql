@@ -4,7 +4,7 @@ USE kittenbook;
 CREATE TABLE usuarios (
     nombre_usuario VARCHAR(255),
 	nombre VARCHAR(255),
-	apelllido VARCHAR(255),
+	apellido VARCHAR(255),
 	hash_password VARCHAR(255) NOT NULL,
 	PRIMARY KEY (nombre_usuario)
 );

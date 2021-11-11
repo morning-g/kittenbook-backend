@@ -1,5 +1,4 @@
 // Importes
-const db = require("./database");
 const express = require("express");
 const createError = require("http-errors");
 const path = require("path");
@@ -57,15 +56,6 @@ app.use(function (err, req, res, next) {
     res.status(err.status || 500);
     res.render("error");
 });
-
-// Conexión al servidor de la base de datos
-db.authenticate()
-    .then(() => {
-        console.log("Connection has been established successfully.");
-    })
-    .catch((err) => {
-        console.error("Unable to connect to the database:", err);
-    });
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);

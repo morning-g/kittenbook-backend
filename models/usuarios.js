@@ -10,7 +10,7 @@ module.exports = function(sequelize, DataTypes) {
       type: DataTypes.STRING(255),
       allowNull: true
     },
-    apelllido: {
+    apellido: {
       type: DataTypes.STRING(255),
       allowNull: true
     },
