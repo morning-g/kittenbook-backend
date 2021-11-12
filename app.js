@@ -5,6 +5,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const logger = require("morgan");
+const session = require('express-session')
 const mysql2 = require("mysql2");
 
 // Se crea la app
@@ -23,14 +24,24 @@ app.use(function(req, res, next) {
     next();
 });
 const corsOptions = {
-    origin: '*',
+    origin: 'http://localhost:3000',
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE"],
     optionSuccessStatus: 200
 };
 app.use(cors(corsOptions));
+app.use(cookieParser());
+app.use(session({
+    key: "userid",
+    secret: "d02425c564fbcc3a24fa78ccc2ea9b4d81e527b0b9a45c97a6f0f5be720628e1",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        maxAge: 60 * 60 * 24,
+    },
+}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 // Importar los archivos de las rutas
