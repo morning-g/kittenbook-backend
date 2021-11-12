@@ -32,7 +32,6 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.use(cookieParser());
 app.use(session({
-    key: "userid",
     secret: "d02425c564fbcc3a24fa78ccc2ea9b4d81e527b0b9a45c97a6f0f5be720628e1",
     resave: false,
     saveUninitialized: false,

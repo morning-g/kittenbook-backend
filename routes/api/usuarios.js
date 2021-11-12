@@ -3,56 +3,85 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const modelos = require('../../database')
 
+var auth = function (req, res, next) {
+    if (req.session && req.session.admin)
+        return next();
+    else
+        return res.sendStatus(401);
+};
+
 router.post('/registro', (req, res, next) => {
-    const saltRounds = 10;
-    bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
-        // Store hash in your password DB.
-        const usuario = {
-            nombre_usuario: req.body.username,
-            nombre: req.body.firstName,
-            apellido: req.body.lastName,
-            hash_password: hash
-        };
-        modelos.usuarios.create(usuario)
-            .then(data => {
-                console.log("Data sent:")
-                console.log(data);
-                res.send(data);
-            })
-            .catch(err => {
-                console.log("Error:")
-                console.log(err);
-                res.status(500).send({
-                    message:
-                        err.message || "Error al registrarse."
-                });
+    if (req.body.firstName === "" || req.body.lastName === "" || req.body.password == "" || req.body.username === "") {
+        return res.status(402).send();
+    }
+    modelos.usuarios.findOne({
+        raw: true,
+        attributes: ['nombre_usuario'],
+        where: {nombre_usuario: req.body.username}
+    }).then(data => {
+        if (data === null) {
+            const saltRounds = 10;
+            bcrypt.hash(req.body.password, saltRounds, function (err, hash) {
+                // Store hash in your password DB.
+                const usuario = {
+                    nombre_usuario: req.body.username,
+                    nombre: req.body.firstName,
+                    apellido: req.body.lastName,
+                    hash_password: hash
+                };
+                modelos.usuarios.create(usuario)
+                    .then(data => {
+                        console.log(data);
+                        res.status(200).send();
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(400).send({
+                            message: "Error al procesar la solicitud."
+                        });
+                    });
             });
+        } else {
+            res.status(401).send({
+                message: "El usuario ya existe."
+            });
+        }
+    }).catch(err => {
+        console.log(err);
+        res.status(400).send({
+            message: "Error al procesar la solicitud."
+        });
     });
+
 });
 
 router.post('/login', (req, res, next) => {
     var session;
+    console.log(req.body)
     modelos.usuarios.findOne({
         raw: true,
         attributes: ['hash_password'],
         where: {nombre_usuario: req.body.username}
     }).then(data => {
-        console.log("Data sent:");
-        console.log(data);
+        if (data === null) {
+            return res.status(401).send({
+                message: "Usuario no encontrado."
+            });
+        }
         bcrypt.compare(req.body.password, data.hash_password, function (err, result) {
             if (result) {
                 session = req.session;
                 session.userid = req.body.username;
-                res.send({status: 'SUCCESS'});
+                req.session.admin = true;
+                res.status(200).send();
             } else {
-                res.send({status: 'FAILURE'});
+                res.status(402).send();
             }
         });
     }).catch(err => {
-        console.log("Error:");
         console.log(err);
-        res.status(500).send({
-            message: "Error al buscar al usuario."
+        res.status(400).send({
+            message: "Error al procesar la solicitud."
         });
     });
 });
