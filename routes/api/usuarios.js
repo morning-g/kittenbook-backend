@@ -1,20 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const modelos = require('../../database')
-
-var auth = function (req, res, next) {
-    if (req.session && req.session.admin)
-        return next();
-    else
-        return res.sendStatus(401);
-};
+const database = require('../../database');
 
 router.post('/registro', (req, res, next) => {
     if (req.body.firstName === "" || req.body.lastName === "" || req.body.password == "" || req.body.username === "") {
         return res.status(402).send();
     }
-    modelos.usuarios.findOne({
+    database.models.usuarios.findOne({
         raw: true,
         attributes: ['nombre_usuario'],
         where: {nombre_usuario: req.body.username}
@@ -29,7 +22,7 @@ router.post('/registro', (req, res, next) => {
                     apellido: req.body.lastName,
                     hash_password: hash
                 };
-                modelos.usuarios.create(usuario)
+                database.models.usuarios.create(usuario)
                     .then(data => {
                         console.log(data);
                         res.status(200).send();
@@ -56,9 +49,7 @@ router.post('/registro', (req, res, next) => {
 });
 
 router.post('/login', (req, res, next) => {
-    var session;
-    console.log(req.body)
-    modelos.usuarios.findOne({
+    database.models.usuarios.findOne({
         raw: true,
         attributes: ['hash_password'],
         where: {nombre_usuario: req.body.username}
@@ -70,9 +61,8 @@ router.post('/login', (req, res, next) => {
         }
         bcrypt.compare(req.body.password, data.hash_password, function (err, result) {
             if (result) {
-                session = req.session;
-                session.userid = req.body.username;
-                req.session.admin = true;
+                req.session.username = req.body.username;
+                req.session.authenticated = true;
                 res.status(200).send();
             } else {
                 res.status(402).send();
@@ -86,8 +76,32 @@ router.post('/login', (req, res, next) => {
     });
 });
 
+router.get('/autenticado', (req, res) => {
+    if (req.session.username === undefined || req.session.authenticated === undefined) {
+        return res.json({});
+    }
+    if (req.session.username !== undefined && req.session.authenticated !== undefined) {
+        if (req.session.authenticated == true) {
+            return res.json({username: req.session.username, authenticated: req.session.authenticated.toString()});
+        }
+    }
+    res.status(400).send({
+        message: "Error al procesar la solicitud."
+    });
+});
+
 router.get('/logout', (req, res) => {
-    req.session.destroy();
+    if (req.session.authenticated) {
+        delete req.session.user;
+        req.session.authenticated = false;
+        req.session.destroy((err) => {
+            console.log(err);
+        });
+        res.clearCookie('connect.sid', {path: '/'});
+        res.redirect('/');
+    } else {
+        res.status(400).send();
+    }
 });
 
 module.exports = router;

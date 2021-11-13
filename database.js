@@ -22,4 +22,4 @@ db.authenticate()
         console.error("Unable to connect to the database:", err);
     });
 
-module.exports = models;
+module.exports = { models, db };
