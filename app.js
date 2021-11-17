@@ -60,14 +60,16 @@ const notesRouter = require("./routes/api/notas");
 const historyRouter = require("./routes/api/reticula");
 const scheduleRouter = require("./routes/api/horario");
 const tasksRouter = require("./routes/api/tareas");
+const classesRouter = require("./routes/api/materias")
 
 // Se asignan las rutas del servidor a los archivos correspondientes en la carpeta routes
 app.use("/", indexRouter);
 app.use("/api/usuarios", usersRouter);
 app.use("/api/tareas", tasksRouter);
-app.use("/api/reticula", historyRouter);
+app.use("/api/historial", historyRouter);
 app.use("/api/horario", scheduleRouter);
 app.use("/api/notas", notesRouter);
+app.use("/api/materias", classesRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
