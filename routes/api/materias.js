@@ -19,7 +19,6 @@ router.get('/', auth, (req, res, next) => {
                 message: "Materias no encontradas."
             });
         }
-        console.log(data);
         res.status(200).json(data);
     }).catch(err => {
         console.log(err);

@@ -24,15 +24,15 @@ module.exports = function(sequelize, DataTypes) {
       }
     },
     tiempo_creacion: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     tiempo_inicio: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     tiempo_finalizacion: {
-      type: DataTypes.DATE,
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     titulo: {

@@ -24,7 +24,6 @@ router.post('/', auth, (req, res, next) => {
         periodo_cursada: req.body.periodo_cursada
     }
     database.models.historial.create(materia).then(data => {
-        console.log(data);
         res.status(200).send();
     }).catch(err => {
         console.log(err);
@@ -43,7 +42,6 @@ router.get('/', auth, (req, res, next) => {
                 message: "Materias no encontradas."
             });
         }
-        console.log(data);
         res.status(200).json(data);
     }).catch(err => {
         console.log(err);
@@ -60,7 +58,6 @@ router.delete('/', auth, (req, res, next) => {
                 message: "Curso no encontrado."
             });
         }
-        console.log(data);
         res.status(200).send();
     }).catch(err => {
         console.log(err);

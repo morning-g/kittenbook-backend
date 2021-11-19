@@ -21,7 +21,6 @@ router.post('/', auth, (req, res, next) => {
         contenido: req.body.contenido
     }
     database.models.notas.create(nota).then(data => {
-        console.log(data);
         res.status(200).send();
     }).catch(err => {
         console.log(err);
@@ -40,7 +39,6 @@ router.get('/', auth, (req, res, next) => {
                 message: "Notas no encontradas."
             });
         }
-        console.log(data);
         res.status(200).json(data);
     }).catch(err => {
         console.log(err);
@@ -57,7 +55,6 @@ router.delete('/', auth, (req, res, next) => {
                 message: "Nota no encontrada."
             });
         }
-        console.log(data);
         res.status(200).send();
     }).catch(err => {
         console.log(err);
@@ -74,7 +71,6 @@ router.post('/actualizar', auth, (req, res, next) => {
                 message: "Nota no encontrada."
             });
         }
-        console.log(data);
         res.status(200).send();
     }).catch(err => {
         console.log(err);

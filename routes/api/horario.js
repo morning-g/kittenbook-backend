@@ -10,31 +10,21 @@ let auth = function (req, res, next) {
 };
 
 router.post('/', auth, (req, res, next) => {
-    if (req.body.clave_materia === "") {
-        return res.status(401).send({
-            message: "No se llenaron los campos requeridos.."
-        });
-    }
-    let horaDeInicio = req.body.hora_inicio.toString() + ":00:00";
-    let horaDeTermino = req.body.hora_termino.toString() + ":00:00";
     const clase = {
         nombre_usuario: req.session.username,
         clave_materia: req.body.clave_materia,
         grupo: req.body.grupo,
         docente: req.body.docente,
         aula: req.body.aula,
-        hora_inicio: horaDeInicio,
-        hora_termino: horaDeTermino,
+        hora_inicio: req.body.hora_inicio,
+        hora_termino: req.body.hora_termino,
         lunes: req.body.lunes,
         martes: req.body.martes,
         miercoles: req.body.miercoles,
         jueves: req.body.jueves,
         viernes: req.body.viernes,
-    }
-    console.log(req.body.hora_termino);
-    console.log(req.body.hora_termino);
+    };
     database.models.horario.create(clase).then(data => {
-        console.log(data);
         res.status(200).send();
     }).catch(err => {
         console.log(err);
@@ -53,7 +43,6 @@ router.get('/', auth, (req, res, next) => {
                 message: "Notas no encontradas."
             });
         }
-        console.log(data);
         res.status(200).json(data);
     }).catch(err => {
         console.log(err);
@@ -70,7 +59,6 @@ router.delete('/', auth, (req, res, next) => {
                 message: "Clase no encontrada."
             });
         }
-        console.log(data);
         res.status(200).send();
     }).catch(err => {
         console.log(err);
@@ -84,6 +72,7 @@ router.post('/actualizar', auth, (req, res, next) => {
         nombre_usuario: req.session.username,
         clave_materia: req.body.clave_materia,
         grupo: req.body.grupo,
+        docente: req.body.docente,
         aula: req.body.aula,
         hora_inicio: req.body.hora_inicio,
         hora_termino: req.body.hora_termino,
@@ -100,7 +89,6 @@ router.post('/actualizar', auth, (req, res, next) => {
                 message: "Clase no encontrada."
             });
         }
-        console.log(data);
         res.status(200).send();
     }).catch(err => {
         console.log(err);

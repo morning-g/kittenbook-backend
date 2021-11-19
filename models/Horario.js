@@ -36,11 +36,11 @@ module.exports = function(sequelize, DataTypes) {
       allowNull: true
     },
     hora_inicio: {
-      type: DataTypes.TIME,
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     hora_termino: {
-      type: DataTypes.TIME,
+      type: DataTypes.STRING(255),
       allowNull: true
     },
     lunes: {

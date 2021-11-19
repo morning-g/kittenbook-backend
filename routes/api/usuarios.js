@@ -24,7 +24,6 @@ router.post('/registro', (req, res, next) => {
                 };
                 database.models.usuarios.create(usuario)
                     .then(data => {
-                        console.log(data);
                         res.status(200).send();
                     })
                     .catch(err => {
