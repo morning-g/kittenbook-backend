@@ -1,10 +1,28 @@
-const { Sequelize } = require('sequelize');
-const { initModels } = require("./models/init-models");
+const {Sequelize} = require('sequelize');
+const {initModels} = require("./models/init-models");
 
-const db = new Sequelize('kittenbook', 'root', 'AntiumArt-00', {
-    host: "localhost",
-    dialect: "mysql"
-});
+let db;
+
+// if (process.env.NODE_ENV === "production") {
+    db = new Sequelize('kittenbook', 'kittenAdmin', 'Kittenbook2021!', {
+        host: 'servidor-base-de-datos-kittenbook.mysql.database.azure.com',
+        port: 3306,
+        dialect: 'mysql',
+        pool: {
+            max: 5,
+            min: 0,
+            idle: 10000
+        },
+        dialectOptions: {
+            encrypt: true
+        }
+    });
+// } else {
+//     db = new Sequelize('kittenbook', 'root', 'AntiumArt-00', {
+//         host: "localhost",
+//         dialect: "mysql"
+//     });
+// }
 
 let models = initModels(db);
 
@@ -22,4 +40,4 @@ db.authenticate()
         console.error("Unable to connect to the database:", err);
     });
 
-module.exports = { models, db };
+module.exports = {models, db};

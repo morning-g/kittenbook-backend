@@ -25,6 +25,7 @@ app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.header('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE');
+    res.header('Access-Control-Allow-Credentials', "true");
     next();
 });
 const corsOptions = {
@@ -85,6 +86,11 @@ app.use(function (err, req, res, next) {
     // render the error page
     res.status(err.status || 500);
     res.render("error");
+});
+
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 app.listen(port, () => {
