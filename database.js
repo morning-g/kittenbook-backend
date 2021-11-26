@@ -1,22 +1,26 @@
 const {Sequelize} = require('sequelize');
 const {initModels} = require("./models/init-models");
+const fs = require("fs");
 
 let db;
 
 // if (process.env.NODE_ENV === "production") {
-    db = new Sequelize('kittenbook', 'kittenAdmin', 'Kittenbook2021!', {
-        host: 'servidor-base-de-datos-kittenbook.mysql.database.azure.com',
-        port: 3306,
-        dialect: 'mysql',
-        pool: {
-            max: 5,
-            min: 0,
-            idle: 10000
-        },
-        dialectOptions: {
-            encrypt: true
+db = new Sequelize('KITTENBOOK', 'kittenAdmin@servidor-base-de-datos-kittenbook', 'Kittenbook2021!', {
+    host: 'servidor-base-de-datos-kittenbook.mysql.database.azure.com',
+    port: 3306,
+    dialect: 'mysql',
+    pool: {
+        max: 5,
+        min: 0,
+        idle: 10000
+    },
+    dialectOptions: {
+        encrypt: true,
+        ssl: {
+            ca: fs.readFileSync(__dirname + '/BaltimoreCyberTrustRoot.crt.pem')
         }
-    });
+    }
+});
 // } else {
 //     db = new Sequelize('kittenbook', 'root', 'AntiumArt-00', {
 //         host: "localhost",
