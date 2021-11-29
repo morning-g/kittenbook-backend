@@ -24,7 +24,7 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 app.use(logger("dev"));
 app.use(function (req, res, next) {
-    res.set("Access-Control-Allow-Origin", "*");
+    res.set("Access-Control-Allow-Origin", "http://40.121.45.170/");
     res.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     res.set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
     res.set('Access-Control-Allow-Credentials', "true");
