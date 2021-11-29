@@ -4,7 +4,7 @@ const fs = require("fs");
 
 let db;
 
-// if (process.env.NODE_ENV === "production") {
+if (process.env.NODE_ENV === "production") {
 db = new Sequelize('KITTENBOOK', 'kittenAdmin@servidor-base-de-datos-kittenbook', 'Kittenbook2021!', {
     host: 'servidor-base-de-datos-kittenbook.mysql.database.azure.com',
     port: 3306,
@@ -21,12 +21,12 @@ db = new Sequelize('KITTENBOOK', 'kittenAdmin@servidor-base-de-datos-kittenbook'
         }
     }
 });
-// } else {
-//     db = new Sequelize('kittenbook', 'root', 'AntiumArt-00', {
-//         host: "localhost",
-//         dialect: "mysql"
-//     });
-// }
+} else {
+    db = new Sequelize('kittenbook', 'root', 'AntiumArt-00', {
+        host: "localhost",
+        dialect: "mysql"
+    });
+}
 
 let models = initModels(db);
 
