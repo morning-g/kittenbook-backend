@@ -31,7 +31,7 @@ app.use(function (req, res, next) {
     next();
 });
 const corsOptions = {
-    origin: 'http://localhost:3000',
+    origin: '*',
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE"],
     optionSuccessStatus: 200
