@@ -15,7 +15,6 @@ if (process.env.NODE_ENV === "production") {
             idle: 10000
         },
         dialectOptions: {
-            encrypt: true,
             ssl: {
                 ca: fs.readFileSync(__dirname + '/BaltimoreCyberTrustRoot.crt.pem')
             }
