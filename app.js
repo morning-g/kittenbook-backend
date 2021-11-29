@@ -17,24 +17,23 @@ const app = express();
 // Puerto del servidor local
 const port = process.env.PORT || 3005;
 
-console.log(process.env.NODE_ENV);
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
 app.use(logger("dev"));
 app.use(function (req, res, next) {
-    res.set("Access-Control-Allow-Origin", "http://40.121.45.170/");
-    res.set("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    res.set('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
-    res.set('Access-Control-Allow-Credentials', "true");
-    res.set('Access-Control-Allow-Private-Network', "true");
+    res.setHeader("Access-Control-Allow-Origin", "http://40.121.45.170/");
+    res.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PATCH, DELETE, OPTIONS');
+    res.setHeader('Access-Control-Allow-Credentials', "true");
+    res.setHeader('Access-Control-Allow-Private-Network', "true");
     next();
 });
 const corsOptions = {
     origin: 'http://40.121.45.170/',
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE, OPTIONS"],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Origin", "X-Requested-With", "Content-Type", "Accept"],
     optionSuccessStatus: 200
 };
 app.use(cors(corsOptions));
@@ -91,10 +90,12 @@ app.use(function (err, req, res, next) {
     res.render("error");
 });
 
-app.use(express.static(path.join(__dirname, 'build')));
-app.get('/*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, 'build')));
+    app.get('/*', (req, res) => {
+        res.sendFile(path.join(__dirname, 'build', 'index.html'));
+    });
+}
 
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
