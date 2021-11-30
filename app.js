@@ -8,7 +8,9 @@ const logger = require("morgan");
 const session = require('express-session')
 const Sequelize = require('sequelize');
 const mysql2 = require("mysql2");
-var database = require("./database")
+var database = require("./database");
+const https = require('https');
+const fs = require('fs');
 
 var SequelizeStore = require("connect-session-sequelize")(session.Store);
 
@@ -100,8 +102,11 @@ if (process.env.NODE_ENV === "production") {
     });
 }
 
-app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
-});
+https.createServer({
+    key: fs.readFileSync('./privkey.pem'),
+    cert: fs.readFileSync('./fullchain.pem')
+}, app).listen(port, () => {
+        console.log(`Example app listening at http://localhost:${port}`);
+    });
 
 module.exports = app;
