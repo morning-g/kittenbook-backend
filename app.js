@@ -17,6 +17,9 @@ const app = express();
 // Puerto del servidor local
 const port = process.env.PORT || 3005;
 
+console.log("Mode: " + process.env.NODE_ENV);
+console.log("Port: " + process.env.PORT);
+
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "jade");
