@@ -18,7 +18,7 @@ const app = express();
 const port = process.env.PORT || 3005;
 
 console.log("Mode: " + process.env.NODE_ENV);
-console.log("Port: " + process.env.PORT);
+console.log("Port: " + port);
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
